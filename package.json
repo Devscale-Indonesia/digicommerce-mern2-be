@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "build": "tsc",
         "lint": "eslint . --fix",
         "prepare": "husky"
     },
