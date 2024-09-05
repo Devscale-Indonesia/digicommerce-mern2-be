@@ -28,3 +28,23 @@ jobs:
 
             - name: Push Docker Image
               run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && docker push ${{ secrets.DOCKERHUB_USERNAME }}/digicommerce-backend
+
+            - name: Setup SSH
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan -H your_server_ip >> ~/.ssh/known_hosts
+
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+            - name: Deploy code via SSH
+              run: |
+                  ssh indrazm@103.13.207.242 "
+                    docker pull indrazm/digicommerce-backend:latest && \
+                    docker stop indrazm/digicommerce-backend && \
+                    docker rm indrazm/digicommerce-backend && \
+                    docker run -d --name indrazm/digicommerce-backend \
+                    -p 8000:8000 indrazm/digicommerce-backend:latest
+                  "
