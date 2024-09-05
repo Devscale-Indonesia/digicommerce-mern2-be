@@ -8,7 +8,7 @@ RUN npm install -g pnpm@latest
 RUN pnpm install
 RUN pnpm build
 
-ENV MONGO_URI="mongodb+srv://admin:adminpassword@103.13.207.242:27017/ecommerce?retryWrites=true&w=majority"
+ENV MONGO_URI=$MONGO_URI
 
 CMD ["node", "dist/main.js"]
 
