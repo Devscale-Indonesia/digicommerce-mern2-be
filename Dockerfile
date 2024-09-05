@@ -8,6 +8,6 @@ RUN npm install -g pnpm@latest
 RUN pnpm install
 RUN pnpm build
 
-CMD ["node", "server.js"]
+CMD ["node", "dist/main.js"]
 
 EXPOSE 8020
