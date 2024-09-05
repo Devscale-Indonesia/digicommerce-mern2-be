@@ -1,3 +1,6 @@
+# Setup CI
+
+```yaml
 name: CI/CD Pipeline Backend App
 
 on:
@@ -28,3 +31,4 @@ jobs:
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: ./build
+```
