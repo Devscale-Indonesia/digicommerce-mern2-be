@@ -46,5 +46,5 @@ jobs:
                     docker stop indrazm/digicommerce-backend && \
                     docker rm indrazm/digicommerce-backend && \
                     docker run -d --name indrazm/digicommerce-backend \
-                    -p 8000:8000 indrazm/digicommerce-backend:latest
+                    -p 8020:8020 indrazm/digicommerce-backend:latest
                   "

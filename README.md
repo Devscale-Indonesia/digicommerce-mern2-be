@@ -57,9 +57,9 @@ jobs:
               run: |
                   ssh indrazm@103.13.207.242 "
                     docker pull indrazm/digicommerce-backend:latest && \
-                    docker stop indrazm/digicommerce-backend && \
+                    docker stop digicommerce-backend && \
                     docker rm indrazm/digicommerce-backend && \
-                    docker run -d --name indrazm/digicommerce-backend \
+                    docker run -d --name digicommerce-backend \
                     -p 8000:8000 indrazm/digicommerce-backend:latest
                   "
 ```

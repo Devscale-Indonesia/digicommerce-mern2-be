@@ -10,4 +10,4 @@ RUN pnpm build
 
 CMD ["node", "server.js"]
 
-EXPOSE 3000
+EXPOSE 8020
