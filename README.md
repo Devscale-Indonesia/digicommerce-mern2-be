@@ -31,15 +31,35 @@ jobs:
               with:
                   node-version: 20
 
-            - name: Install dependencies
+            - name: Install Dependencies
               run: npm install
 
-            - name: Build
-              run: npm run build
+            - name: Check Linting
+              run: npm run lint
 
-            - name: Deploy
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./build
+            - name: Build Docker Image
+              run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/digicommerce-backend .
+
+            - name: Push Docker Image
+              run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && docker push ${{ secrets.DOCKERHUB_USERNAME }}/digicommerce-backend
+
+            - name: Setup SSH
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan -H 103.13.207.242 >> ~/.ssh/known_hosts
+
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+            - name: Deploy code via SSH
+              run: |
+                  ssh indrazm@103.13.207.242 "
+                    docker pull indrazm/digicommerce-backend:latest && \
+                    docker stop indrazm/digicommerce-backend && \
+                    docker rm indrazm/digicommerce-backend && \
+                    docker run -d --name indrazm/digicommerce-backend \
+                    -p 8000:8000 indrazm/digicommerce-backend:latest
+                  "
 ```
