@@ -1,6 +1,9 @@
 import express from 'express';
+import { connectDB } from './utils/mongo';
 
 const app = express();
+
+connectDB();
 
 app.get('/', (_, res) => {
     return res.send('Hello World!');
